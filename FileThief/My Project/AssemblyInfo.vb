@@ -11,8 +11,8 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyTitle("FileThief")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("FileThief")> 
-<Assembly: AssemblyCopyright("Copyright ©  2021")> 
+<Assembly: AssemblyProduct("FileThief")>
+<Assembly: AssemblyCopyright("")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
